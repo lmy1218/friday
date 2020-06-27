@@ -17,7 +17,7 @@ public class SysPermission implements Serializable {
     // ID
     private Integer id;
     // 父ID
-    private Integer parentid;
+    private Integer parentId;
     // 权限名称
     private String name;
     // css样式名

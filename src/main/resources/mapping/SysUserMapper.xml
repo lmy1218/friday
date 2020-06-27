@@ -7,7 +7,7 @@
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
-        <result property="headImgurl" column="headImgUrl" jdbcType="VARCHAR"/>
+        <result property="headImgUrl" column="headImgUrl" jdbcType="VARCHAR"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
@@ -18,6 +18,12 @@
         <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <sql id="columns">
+        username, password, nickname, headImgUrl, telephone, email, birthday, sex, status, createTime, updateTime
+    </sql>
+
+
+    <!--分页查询用户-->
     <select id="getUserByPage" resultMap="SysUserMap" >
         select * from sys_user t
         <where>
@@ -28,6 +34,7 @@
         order by t.id limit #{offset}, #{limit}
     </select>
 
+    <!--查询用户数量-->
     <select id="usersCount" parameterType="java.lang.String" resultType="java.lang.Long" >
        select count(*) from sys_user
         <where>
@@ -36,5 +43,61 @@
             </if>
         </where>
     </select>
+
+    <!--根据用户名查询-->
+    <select id="selcetUserByUsername" parameterType="java.lang.String" resultMap="SysUserMap" >
+        select * from sys_user where username = #{username}
+    </select>
+
+    <!--根据手机号查询-->
+    <select id="selcetUserByTelephone" parameterType="java.lang.String" resultMap="SysUserMap" >
+        select * from sys_user where telephone = #{telephone}
+    </select>
+
+    <!--根据优先查询-->
+    <select id="selcetUserByEmail" parameterType="java.lang.String" resultMap="SysUserMap" >
+        select * from sys_user where email = #{email}
+    </select>
+
+
+    <insert id="insertUser" parameterType="sysUser" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_user (<include refid="columns"></include>) values(#{username}, #{password}, #{nickname},
+         #{headImgUrl}, #{telephone}, #{email}, #{birthday}, #{sex}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="updateUser" parameterType="sysUser">
+        update sys_user t
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname},
+            </if>
+            <if test="headImgUrl != null">
+                headImgUrl = #{headImgUrl},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            updateTime = #{updateTime}
+        </set>
+        where t.id = #{id}
+    </update>
 
 </mapper>

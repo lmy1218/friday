@@ -24,7 +24,7 @@ public class SysUser implements Serializable {
     // 昵称
     private String nickname;
     // 头像
-    private String headImgurl;
+    private String headImgUrl;
     // 电话号码
     private String phone;
     // 手机号码

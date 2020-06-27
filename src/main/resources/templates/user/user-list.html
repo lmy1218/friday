@@ -20,25 +20,21 @@
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
                     <div class="layui-card">
-                        <div class="layui-card-body ">
-                            <div style="text-align: left" id='btn'>
-                                <div class="layui-inline">
-                                    <input class="layui-input" name="search" id="search" autocomplete="off">
-                                </div>
-                                <button class="layui-btn" data-type="reload">搜索</button>
-                                <button class="layui-btn" onclick="xadmin.open('添加用户','/user/showAdd',600,400)"><i class="layui-icon"></i>添加</button>
+                        <div style="text-align: left" id='btn'>
+                            <div class="layui-inline">
+                                <input class="layui-input" name="search" id="search" autocomplete="off">
                             </div>
-
-                            <table id="user" lay-filter="test"></table>
-
-                            <!--操作模版-->
-                            <script type="text/html" id="play">
-                                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-                            </script>
-
-
+                            <button class="layui-btn" data-type="reload">搜索</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加用户','/user/showAdd',600,400)"><i class="layui-icon"></i>添加</button>
                         </div>
+
+                        <table class="layui-hide" id="table" lay-filter="member"></table>
+
+                        <!--操作模版-->
+                        <script type="text/html" id="play">
+                            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                        </script>
                     </div>
                 </div>
             </div>
@@ -50,7 +46,7 @@
 
             //第一个实例
             table.render({
-                elem: '#user'
+                elem: '#table'
                 // ,height: 312
                 ,url: '/user/list' //数据接口
                 ,page: true //开启分页
@@ -78,13 +74,39 @@
                 ]
             });
 
+            //监听工具条
+            table.on('tool(member)', function(obj){
+                var data = obj.data;
+                if(obj.event === 'del'){
+                    layer.confirm('真的删除行么', function(index){
+
+                        $.ajax({
+                            url:"/user/delete",
+                            type:"GET",
+                            data:{id:data.id},
+                            dataType:'json',
+                            success:function(result){
+                                layer.alert("删除成功", {icon: 1},function (index1) {
+                                    layer.close(index1);
+                                    //xadmin.father_reload();
+                                    table.reload('table');
+                                });
+                            },
+                        });
+
+                    });
+                } else if(obj.event === 'edit'){
+                    xadmin.open('编辑用户信息','/user/edit/?id='+data.id);
+                }
+            });
+
             // 搜索
             var $ = layui.$, active = {
                 reload: function(){
                     var search = $('#search');
 
                     //执行重载
-                    table.reload('user', {
+                    table.reload('table', {
                         page: {
                             curr: 1 //重新从第 1 页开始
                         }

@@ -1,8 +1,10 @@
 package com.lmy.friday.mapper;
 
 import com.lmy.friday.entity.SysUser;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -22,4 +24,19 @@ public interface SysUserMapper {
     // 分页查询
     List<SysUser> getUserByPage(@Param("offset") Integer offset, @Param("limit") Integer limit, @Param("search") String search);
 
+    SysUser selcetUserByUsername(@Param("username") String username);
+
+    SysUser selcetUserByTelephone(String telephone);
+
+    SysUser selcetUserByEmail(String email);
+
+    Integer insertUser(SysUser user);
+
+    @Select("select * from sys_user where id = #{id}")
+    SysUser selectUserById(@Param("id") Integer id);
+
+    Integer updateUser(SysUser user);
+
+    @Delete("delete from sys_user where id = #{id}")
+    Integer deleteUser(@Param("id") Integer id);
 }

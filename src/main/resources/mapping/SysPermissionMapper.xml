@@ -4,7 +4,7 @@
 
     <resultMap type="com.lmy.friday.entity.SysPermission" id="SysPermissionMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="parentid" column="parentId" jdbcType="INTEGER"/>
+        <result property="parentId" column="parentId" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="css" column="css" jdbcType="VARCHAR"/>
         <result property="href" column="href" jdbcType="VARCHAR"/>

@@ -14,8 +14,8 @@ import java.io.Serializable;
 public class SysRoleUser implements Serializable {
     private static final long serialVersionUID = 339533683088311822L;
     // 用户ID
-    private Integer userid;
+    private Integer userId;
     // 角色ID
-    private Integer roleid;
+    private Integer roleId;
 
 }
