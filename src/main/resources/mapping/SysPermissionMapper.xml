@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmy.friday.mapper.SysPermissionMapper">
+
+    <resultMap type="com.lmy.friday.entity.SysPermission" id="SysPermissionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="parentid" column="parentId" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="css" column="css" jdbcType="VARCHAR"/>
+        <result property="href" column="href" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="TINYINT"/>
+        <result property="permission" column="permission" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+</mapper>

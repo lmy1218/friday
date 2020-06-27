@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmy.friday.mapper.SysRolePermissionMapper">
+
+    <resultMap type="com.lmy.friday.entity.SysRolePermission" id="SysRolePermissionMap">
+        <result property="roleid" column="roleId" jdbcType="INTEGER"/>
+        <result property="permissionid" column="permissionId" jdbcType="INTEGER"/>
+    </resultMap>
+
+</mapper>

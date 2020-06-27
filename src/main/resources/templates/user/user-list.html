@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>用户查询</title>
+        <header th:replace="header::html"></header>
+    </head>
+    <body>
+        <div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">演示</a>
+            <a>
+              <cite>导航元素</cite></a>
+          </span>
+          <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+        </div>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+                            <div style="text-align: left" id='btn'>
+                                <div class="layui-inline">
+                                    <input class="layui-input" name="search" id="search" autocomplete="off">
+                                </div>
+                                <button class="layui-btn" data-type="reload">搜索</button>
+                                <button class="layui-btn" onclick="xadmin.open('添加用户','/user/showAdd',600,400)"><i class="layui-icon"></i>添加</button>
+                            </div>
+
+                            <table id="user" lay-filter="test"></table>
+
+                            <!--操作模版-->
+                            <script type="text/html" id="play">
+                                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                            </script>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        layui.use('table', function(){
+            var table = layui.table;
+
+            //第一个实例
+            table.render({
+                elem: '#user'
+                // ,height: 312
+                ,url: '/user/list' //数据接口
+                ,page: true //开启分页
+                ,response: {
+                    dataName: 'datas'
+                }
+                // ,toolbar: '#toolplay' //开启头部工具栏，并为其绑定左侧模板
+                ,cols: [
+                    [ //表头
+                        {type:'checkbox', fixed: 'left'}
+                        ,{field: 'id', title: 'ID', sort: true}
+                        ,{field: 'username', title: '用户名'}
+                        ,{field: 'telephone', title: '手机号'}
+                        ,{field: 'email', title: '邮箱'}
+                        ,{field: 'birthday', title: '出生年月'}
+                        ,{field: 'sex', title: '性别', templet: function (u) {
+                            return u.sex == 1 ? '男' : '女';
+                        }}
+                        ,{field: 'status', title: '状态', templet: function (u) {
+                            return u.status == 1 ? '启用' : '禁用';
+                        }}
+                        ,{field: 'updateTime', title: '更新时间', sort: true}
+                        ,{fixed: 'right', title:'操作', toolbar: '#play', width:150}
+                    ]
+                ]
+            });
+
+            // 搜索
+            var $ = layui.$, active = {
+                reload: function(){
+                    var search = $('#search');
+
+                    //执行重载
+                    table.reload('user', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+                            search:  search.val()
+                        }
+                    });
+                }
+            };
+
+            $('#btn .layui-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+
+        });
+    </script>
+</html>
