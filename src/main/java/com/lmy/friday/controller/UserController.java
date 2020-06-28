@@ -44,8 +44,7 @@ public class UserController {
     @GetMapping("list")
     @ResponseBody
     public Results<SysUser> getUsersByPage(PageTableRequest ptr) {
-       log.info("【用户控制器】查询所有用户!"
-       );
+       log.info("【用户控制器】查询所有用户!");
        // 计算offset
        ptr.countOffset();
        // 查询

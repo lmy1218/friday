@@ -2,16 +2,16 @@
 <html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>用户查询</title>
+        <title>角色查询</title>
         <header th:replace="header::html"></header>
     </head>
     <body>
         <div class="x-nav">
           <span class="layui-breadcrumb">
             <a href="">首页</a>
-            <a href="">演示</a>
+            <a href="">角色</a>
             <a>
-              <cite>用户列表</cite></a>
+              <cite>角色列表</cite></a>
           </span>
           <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
             <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
@@ -25,7 +25,7 @@
                                 <input class="layui-input" name="search" id="search" autocomplete="off">
                             </div>
                             <button class="layui-btn" data-type="reload">搜索</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加用户','/user/showAdd',600,400)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加角色','/role/showAdd',600,400)"><i class="layui-icon"></i>添加</button>
                         </div>
 
                         <table class="layui-hide" id="table" lay-filter="member"></table>
@@ -48,7 +48,7 @@
             table.render({
                 elem: '#table'
                 // ,height: 312
-                ,url: '/user/list' //数据接口
+                ,url: '/role/list' //数据接口
                 ,page: true //开启分页
                 ,response: {
                     dataName: 'datas'
@@ -58,16 +58,8 @@
                     [ //表头
                         {type:'checkbox', fixed: 'left'}
                         ,{field: 'id', title: 'ID', sort: true}
-                        ,{field: 'username', title: '用户名'}
-                        ,{field: 'telephone', title: '手机号'}
-                        ,{field: 'email', title: '邮箱'}
-                        ,{field: 'birthday', title: '出生年月'}
-                        ,{field: 'sex', title: '性别', templet: function (u) {
-                            return u.sex == 1 ? '男' : '女';
-                        }}
-                        ,{field: 'status', title: '状态', templet: function (u) {
-                            return u.status == 1 ? '启用' : '禁用';
-                        }}
+                        ,{field: 'name', title: '名称'}
+                        ,{field: 'description', title: '描述'}
                         ,{field: 'updateTime', title: '更新时间', sort: true}
                         ,{fixed: 'right', title:'操作', toolbar: '#play', width:150}
                     ]
@@ -81,7 +73,7 @@
                     layer.confirm('真的删除行么', function(index){
 
                         $.ajax({
-                            url:"/user/delete",
+                            url:"/role/delete",
                             type:"GET",
                             data:{id:data.id},
                             dataType:'json',

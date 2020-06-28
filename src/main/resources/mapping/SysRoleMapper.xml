@@ -6,12 +6,43 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
-        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
-        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <sql id="columns">
+        name, description, createTime, updateTime
+    </sql>
 
     <select id="selectAllRole" resultMap="SysRoleMap" >
         select * from sys_role
     </select>
+
+
+    <!--分页查询角色-->
+    <select id="getRoleByPage" resultMap="SysRoleMap" >
+        select * from sys_role t
+        <where>
+            <if test="search != null">
+                name = #{search}
+            </if>
+        </where>
+        order by t.id limit #{offset}, #{limit}
+    </select>
+
+    <!--查询角色数量-->
+    <select id="rolesCount" parameterType="java.lang.String" resultType="java.lang.Long" >
+        select count(*) from sys_user
+        <where>
+            <if test="search != null">
+                name = #{search}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertRole" parameterType="sysRole" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_role (<include refid="columns"></include>) values(#{name}, #{description}, #{createTime}, #{updateTime})
+    </insert>
+
 
 </mapper>

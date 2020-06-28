@@ -14,8 +14,8 @@ import java.io.Serializable;
 public class SysRolePermission implements Serializable {
     private static final long serialVersionUID = -90056515479909588L;
     // 角色id
-    private Integer roleid;
+    private Integer roleId;
     // 权限id
-    private Integer permissionid;
+    private Integer permissionId;
 
 }

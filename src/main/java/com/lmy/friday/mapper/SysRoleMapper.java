@@ -2,6 +2,7 @@ package com.lmy.friday.mapper;
 
 import com.lmy.friday.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,9 @@ public interface SysRoleMapper {
 
     List<SysRole> selectAllRole();
 
+    Long rolesCount(String search);
+
+    List<SysRole> getRoleByPage(Integer offset, Integer limit, String search);
+
+    Integer insertRole(SysRole sysRole);
 }

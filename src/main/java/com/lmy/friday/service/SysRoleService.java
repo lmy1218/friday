@@ -1,5 +1,6 @@
 package com.lmy.friday.service;
 
+import com.lmy.friday.dto.RoleDTO;
 import com.lmy.friday.entity.SysRole;
 import com.lmy.friday.vo.Results;
 
@@ -12,4 +13,8 @@ import com.lmy.friday.vo.Results;
  */
 public interface SysRoleService {
     Results<SysRole> getAllRole();
+
+    Results<SysRole> getRoleByPage(Integer offset, Integer limit, String search);
+
+    Results<Void> saveRole(RoleDTO roleDTO);
 }

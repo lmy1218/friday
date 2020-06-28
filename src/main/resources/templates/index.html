@@ -59,6 +59,7 @@
         <div class="left-nav">
             <div id="side-nav">
                 <ul id="nav">
+                    <!--用户管理-->
                     <li>
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="用户管理">&#xe726;</i>
@@ -74,6 +75,21 @@
                                 <a onclick="xadmin.add_tab('修改密码','admin-role.html')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>修改密码</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--角色管理-->
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="角色管理">&#xe726;</i>
+                            <cite>角色管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a onclick="xadmin.add_tab('角色列表','/api/getPage?pageName=role/role-list')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>角色列表</cite>
+                                </a>
                             </li>
                         </ul>
                     </li>

@@ -23,9 +23,9 @@ public class SysRole implements Serializable {
     private String description;
     // 创建时间
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createtime;
+    private Date createTime;
     // 更新时间
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatetime;
+    private Date updateTime;
 
 }
