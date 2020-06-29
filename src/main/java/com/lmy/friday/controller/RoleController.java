@@ -75,6 +75,34 @@ public class RoleController {
     }
 
 
+    /**
+     * 显示编辑页面
+     * @param model
+     * @param id
+     * @return
+     */
+    @GetMapping("edit")
+    public String showEdit(Model model, Integer id) {
+        model.addAttribute("sysRole", sysRoleServiceImpl.getRoleById(id));
+        return "role/role-edit";
+    }
 
+    /**
+     * 保存修改
+     * @param roleDTO
+     * @return
+     */
+    @PostMapping("edit")
+    @ResponseBody
+    public Results<Void> edit(@RequestBody RoleDTO roleDTO) {
+        return sysRoleServiceImpl.editRole(roleDTO);
+    }
+
+
+    @GetMapping("delete")
+    @ResponseBody
+    public Results<Void> delete(Integer id) {
+        return sysRoleServiceImpl.deleteById(id);
+    }
 
 }

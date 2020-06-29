@@ -1,6 +1,7 @@
 package com.lmy.friday.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.lmy.friday.entity.SysPermission;
 import com.lmy.friday.vo.Results;
 
 /**
@@ -14,4 +15,6 @@ import com.lmy.friday.vo.Results;
 public interface SysPermissionService {
 
     Results<JSONArray> getAllPermission();
+
+    Results<SysPermission> getAllPermissionByRoleId(Integer id);
 }

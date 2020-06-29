@@ -23,4 +23,7 @@ public interface SysRoleUserMapper {
 
     @Delete("delete from sys_role_user where userId = #{userId}")
     Integer deleteRoleUser(@Param("userId") Integer userId);
+
+    @Delete("delete from sys_role_user where roleId = #{roleId}")
+    Integer deleteByRoleId(@Param("roleId") Integer roleId);
 }

@@ -17,4 +17,10 @@ public interface SysRoleService {
     Results<SysRole> getRoleByPage(Integer offset, Integer limit, String search);
 
     Results<Void> saveRole(RoleDTO roleDTO);
+
+    SysRole getRoleById(Integer id);
+
+    Results<Void> editRole(RoleDTO roleDTO);
+
+    Results<Void> deleteById(Integer id);
 }

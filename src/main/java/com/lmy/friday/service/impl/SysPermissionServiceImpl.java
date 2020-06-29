@@ -16,6 +16,7 @@ import com.lmy.friday.vo.Results;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -32,7 +33,10 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     @Autowired
     private SysPermissionMapper sysPermissionMapper;
 
-
+    /**
+     * 获取所有权限菜单
+     * @return
+     */
     @Override
     public Results<JSONArray> getAllPermission() {
         // 查询所有权限
@@ -42,4 +46,16 @@ public class SysPermissionServiceImpl implements SysPermissionService {
         TreeUtils.setPermissionsTree(0, list, array);
         return Results.success(array);
     }
+
+    @Override
+    public Results<SysPermission> getAllPermissionByRoleId(Integer id) {
+        // 根据roleId查询
+        List<SysPermission> list = sysPermissionMapper.selectPermissionByRole(id);
+        if (CollectionUtils.isEmpty(list)) {
+            return Results.failure();
+        }
+        return Results.success((long)list.size() , list);
+    }
+
+
 }

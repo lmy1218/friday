@@ -8,6 +8,7 @@ package com.lmy.friday.controller;
  */
 
 import com.alibaba.fastjson.JSONArray;
+import com.lmy.friday.entity.SysPermission;
 import com.lmy.friday.service.SysPermissionService;
 import com.lmy.friday.vo.Results;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,11 @@ public class PermissionController {
         return sysPermissionServiceImpl.getAllPermission();
     }
 
+
+    @GetMapping("listAllPermissionByRoleId")
+    @ResponseBody
+    public Results<SysPermission> listAllPermissionByRoleId(Integer id) {
+        return sysPermissionServiceImpl.getAllPermissionByRoleId(id);
+    }
 
 }

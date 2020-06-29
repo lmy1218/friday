@@ -1,6 +1,8 @@
 package com.lmy.friday.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +17,7 @@ import java.util.List;
 public interface SysRolePermissionMapper {
 
     Integer insert(Integer roleId, List<Integer> ids);
+
+    @Delete("delete from sys_role_permission where roleId = #{id}")
+    Integer deleteByRoleId(@Param("id") Integer id);
 }

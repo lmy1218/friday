@@ -12,6 +12,7 @@ import com.lmy.friday.entity.SysRole;
 import com.lmy.friday.entity.SysUser;
 import com.lmy.friday.mapper.SysRoleMapper;
 import com.lmy.friday.mapper.SysRolePermissionMapper;
+import com.lmy.friday.mapper.SysRoleUserMapper;
 import com.lmy.friday.service.SysRoleService;
 import com.lmy.friday.vo.Results;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,9 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Autowired
     private SysRolePermissionMapper sysRolePermissionMapper;
+
+    @Autowired
+    private SysRoleUserMapper sysRoleUserMapper;
 
     /**
      * 查询所有角色
@@ -91,6 +95,46 @@ public class SysRoleServiceImpl implements SysRoleService {
             return Results.failure();
         }
 
+        return Results.success();
+    }
+
+    @Override
+    public SysRole getRoleById(Integer id) {
+        return sysRoleMapper.getRoleById(id);
+    }
+
+    @Override
+    @Transactional
+    public Results<Void> editRole(RoleDTO roleDTO) {
+        Integer roleId = roleDTO.getId();
+        // 取出权限id集合
+        List<Integer> ids = roleDTO.getPermissionIds();
+        // 删除 根菜单 0
+        ids.remove(0);
+        // 删除该角色之前的权限
+        sysRolePermissionMapper.deleteByRoleId(roleId);
+        // 增加新的权限关联
+        if (!CollectionUtils.isEmpty(ids)) {
+            sysRolePermissionMapper.insert(roleId, ids);
+        } else {
+            return Results.failure();
+        }
+        SysRole role = new SysRole();
+        BeanUtils.copyProperties(roleDTO, role);
+        role.setUpdateTime(new Date());
+        sysRoleMapper.updateRole(role);
+        return Results.success();
+    }
+
+    @Override
+    @Transactional
+    public Results<Void> deleteById(Integer id) {
+        // 删除权限关联表数据
+        sysRolePermissionMapper.deleteByRoleId(id);
+        // 删除用户关联表数据
+        sysRoleUserMapper.deleteByRoleId(id);
+        // 删除角色
+        sysRoleMapper.delete(id);
         return Results.success();
     }
 
