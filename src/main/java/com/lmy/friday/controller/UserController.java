@@ -6,7 +6,6 @@ package com.lmy.friday.controller;
  * @date 2020/6/25 18:18
  * @version V1.0
  */
-
 import com.lmy.friday.entity.SysUser;
 import com.lmy.friday.service.SysUserService;
 import com.lmy.friday.utils.MD5;
@@ -15,6 +14,8 @@ import com.lmy.friday.vo.ResponseCode;
 import com.lmy.friday.vo.Results;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("user")
 public class UserController {
 
+
     @Autowired
     private SysUserService sysUserServiceImpl;
 
@@ -43,6 +45,7 @@ public class UserController {
      */
     @GetMapping("list")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:user:query')")
     public Results<SysUser> getUsersByPage(PageTableRequest ptr) {
        log.info("【用户控制器】查询所有用户!");
        // 计算offset
@@ -57,7 +60,8 @@ public class UserController {
      * @param model
      * @return
      */
-    @GetMapping("showAdd")
+    @GetMapping("/add")
+    @PreAuthorize("hasAuthority('sys:user:add')")
     public String showAdd(Model model) {
         log.info("【用户控制器】跳转新增页面");
         model.addAttribute(new SysUser());
@@ -72,6 +76,7 @@ public class UserController {
      */
     @PostMapping("add")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:user:add')")
     public Results<Void> addUser(SysUser user, Integer roleId) {
         // 参数
         SysUser sysUser = null;
@@ -81,6 +86,7 @@ public class UserController {
             log.info("用户名已经存在");
             return Results.failure(ResponseCode.USERNAME_REPEAT.getCode(),ResponseCode.USERNAME_REPEAT.getMessage());
         }
+
         // 验证手机号
         sysUser = sysUserServiceImpl.getUserByTelephone(user.getTelephone());
         if(sysUser != null && !(sysUser.getId().equals(user.getId()))){
@@ -95,7 +101,7 @@ public class UserController {
         }
         log.info("参数无误，开始新增");
         user.setStatus(1);
-        user.setPassword(MD5.crypt(user.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return sysUserServiceImpl.save(user, roleId);
     }
 
@@ -141,9 +147,17 @@ public class UserController {
 
     @GetMapping("delete")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:user:del')")
     public Results<Void> deleteUser(Integer id) {
         log.info("执行删除控制器");
         return sysUserServiceImpl.deleteUser(id);
+    }
+
+
+    @PostMapping("changePassword")
+    @ResponseBody
+    public Results<Void> changePassword(String username, String oldPassword, String newPassword) {
+        return sysUserServiceImpl.changePassword(username, oldPassword, newPassword);
     }
 
 }

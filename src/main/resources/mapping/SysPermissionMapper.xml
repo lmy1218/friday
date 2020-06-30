@@ -13,5 +13,41 @@
         <result property="sort" column="sort" jdbcType="INTEGER"/>
     </resultMap>
 
+    <sql id="cloums">
+        parentId, name, css, href, type, permission, sort
+    </sql>
+
+    <insert id="insert" parameterType="sysPermission" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_permission (<include refid="cloums"></include>) values (#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})
+    </insert>
+
+
+    <update id="update">
+        update sys_permission t
+        <set>
+            <if test="parentId != null">
+                parentId = #{parentId},
+            </if>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="css != null">
+                css = #{css},
+            </if>
+            <if test="href != null">
+                href = #{href},
+            </if>
+            <if test="type != null">
+                `type` = #{type},
+            </if>
+            <if test="permission != null">
+                permission = #{permission},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+        </set>
+        where t.id = #{id}
+    </update>
 
 </mapper>

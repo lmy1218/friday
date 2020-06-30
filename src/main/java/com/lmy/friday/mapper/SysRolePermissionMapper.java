@@ -20,4 +20,7 @@ public interface SysRolePermissionMapper {
 
     @Delete("delete from sys_role_permission where roleId = #{id}")
     Integer deleteByRoleId(@Param("id") Integer id);
+
+    @Delete("delete from sys_role_permission where permissionId = #{permissionId}")
+    Integer deleteByPermissionId(@Param("permissionId") Integer permissionId);
 }

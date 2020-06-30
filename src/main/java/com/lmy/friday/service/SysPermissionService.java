@@ -17,4 +17,16 @@ public interface SysPermissionService {
     Results<JSONArray> getAllPermission();
 
     Results<SysPermission> getAllPermissionByRoleId(Integer id);
+
+    Results<SysPermission> getAllMenu();
+
+    Results<Void> save(SysPermission permission);
+
+    SysPermission getById(Integer id);
+
+    Results<Void> edit(SysPermission sysPermission);
+
+    Results<Void> delete(Integer id);
+
+    Results<SysPermission> getMenu(Integer userId);
 }

@@ -14,6 +14,7 @@ import com.lmy.friday.vo.PageTableRequest;
 import com.lmy.friday.vo.Results;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,7 @@ public class RoleController {
 
     @GetMapping("list")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:query')")
     public Results<SysRole> getRoleByPage(PageTableRequest ptr) {
         log.info("【角色控制器】查询所有角色!");
         // 计算offset
@@ -57,6 +59,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("showAdd")
+    @PreAuthorize("hasAuthority('sys:role:query')")
     public String showAdd(Model model) {
         model.addAttribute("sysRole", new SysRole());
         return "role/role-add";
@@ -70,6 +73,7 @@ public class RoleController {
      */
     @PostMapping("add")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:query')")
     public Results<Void> saveRole(@RequestBody RoleDTO roleDTO) {
         return sysRoleServiceImpl.saveRole(roleDTO);
     }
@@ -82,6 +86,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("edit")
+    @PreAuthorize("hasAuthority('sys:role:edit')")
     public String showEdit(Model model, Integer id) {
         model.addAttribute("sysRole", sysRoleServiceImpl.getRoleById(id));
         return "role/role-edit";
@@ -94,6 +99,7 @@ public class RoleController {
      */
     @PostMapping("edit")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:edit')")
     public Results<Void> edit(@RequestBody RoleDTO roleDTO) {
         return sysRoleServiceImpl.editRole(roleDTO);
     }
@@ -101,6 +107,7 @@ public class RoleController {
 
     @GetMapping("delete")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:del')")
     public Results<Void> delete(Integer id) {
         return sysRoleServiceImpl.deleteById(id);
     }

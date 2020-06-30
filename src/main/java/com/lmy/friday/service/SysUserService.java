@@ -27,4 +27,6 @@ public interface SysUserService {
     Results<Void> updateUser(SysUser user, Integer roleId);
 
     Results<Void> deleteUser(Integer id);
+
+    Results<Void> changePassword(String username, String oldPassword, String newPassword);
 }

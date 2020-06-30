@@ -10,11 +10,13 @@ import com.lmy.friday.vo.Results;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * (SysUser)表服务实现类
@@ -157,6 +159,24 @@ public class SysUserServiceImpl implements SysUserService {
         } else {
             return Results.failure();
         }
+    }
+
+    @Override
+    public Results<Void> changePassword(String username, String oldPassword, String newPassword) {
+        // 根据用户名查询
+        SysUser user = sysUserMapper.selcetUserByUsername(username);
+        // 判断用户是否为空
+        if (user == null) {
+            return Results.failure(1, "用户不存在");
+        }
+
+        // 校验之前的密码是否正确
+        if (!new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
+            return Results.failure(1, "旧密码错误");
+        }
+        // 修改数据库中的密码
+        sysUserMapper.update(user.getId(), new BCryptPasswordEncoder().encode(newPassword));
+        return Results.success();
     }
 
 

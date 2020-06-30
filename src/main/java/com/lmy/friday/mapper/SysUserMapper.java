@@ -1,10 +1,7 @@
 package com.lmy.friday.mapper;
 
 import com.lmy.friday.entity.SysUser;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -39,4 +36,7 @@ public interface SysUserMapper {
 
     @Delete("delete from sys_user where id = #{id}")
     Integer deleteUser(@Param("id") Integer id);
+
+    @Update("update sys_user set password = #{password} where id = #{id}")
+    Integer update(Integer id, String password);
 }
