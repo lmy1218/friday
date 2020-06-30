@@ -86,7 +86,7 @@ public class UserController {
             log.info("用户名已经存在");
             return Results.failure(ResponseCode.USERNAME_REPEAT.getCode(),ResponseCode.USERNAME_REPEAT.getMessage());
         }
-
+        
         // 验证手机号
         sysUser = sysUserServiceImpl.getUserByTelephone(user.getTelephone());
         if(sysUser != null && !(sysUser.getId().equals(user.getId()))){
